@@ -1,0 +1,618 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="UIDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Document">
+          <Key>
+            <PropertyRef Name="UID" />
+          </Key>
+          <Property Name="UID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DocumentNo" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="DocumentName" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="DocumentType" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="PictureSize" Type="varchar" MaxLength="32" />
+          <Property Name="PictureResolution" Type="varchar" MaxLength="32" />
+          <Property Name="PictureBackground" Type="varchar" MaxLength="32" />
+          <Property Name="DocumentPath" Type="varchar(max)" Nullable="false" />
+          <Property Name="Creater" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="Editor" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="EditTime" Type="datetime" Nullable="false" />
+          <Property Name="Remark" Type="varchar(max)" />
+          <Property Name="State" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DocumentFolder">
+          <Key>
+            <PropertyRef Name="UID" />
+          </Key>
+          <Property Name="UID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DocumentFolderNo" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="FolderUID" Type="int" Nullable="false" />
+          <Property Name="DocumentUID" Type="int" Nullable="false" />
+          <Property Name="Creater" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="Editor" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="EditTime" Type="datetime" Nullable="false" />
+          <Property Name="Remark" Type="varchar(max)" />
+          <Property Name="State" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DocumentTag">
+          <Key>
+            <PropertyRef Name="UID" />
+          </Key>
+          <Property Name="UID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DocumentTagNo" Type="varchar" MaxLength="128" />
+          <Property Name="DocumentUID" Type="int" Nullable="false" />
+          <Property Name="Tag" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="Creater" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="Editor" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="EditTime" Type="datetime" Nullable="false" />
+          <Property Name="Remark" Type="varchar(max)" />
+          <Property Name="State" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Folder">
+          <Key>
+            <PropertyRef Name="UID" />
+          </Key>
+          <Property Name="UID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FolderNo" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="FolderName" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="FatherID" Type="int" />
+          <Property Name="Creater" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" />
+          <Property Name="Editor" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="EditTime" Type="datetime" Nullable="false" />
+          <Property Name="Remark" Type="varchar(max)" />
+          <Property Name="State" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Permission">
+          <Key>
+            <PropertyRef Name="UID" />
+          </Key>
+          <Property Name="UID" Type="int" Nullable="false" />
+          <Property Name="PermissionNo" Type="int" Nullable="false" />
+          <Property Name="PermissionName" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="Remark" Type="varchar(max)" />
+          <Property Name="State" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="UID" />
+          </Key>
+          <Property Name="UID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectNo" Type="varchar" MaxLength="128" />
+          <Property Name="ProjectName" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="Creater" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" />
+          <Property Name="Editor" Type="varchar" MaxLength="32" />
+          <Property Name="EditTime" Type="datetime" />
+          <Property Name="Remark" Type="varchar(max)" />
+          <Property Name="State" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="UID" />
+          </Key>
+          <Property Name="UID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TaskNo" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="TaskName" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="Creater" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="Editor" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="EditTime" Type="datetime" Nullable="false" />
+          <Property Name="Remark" Type="varchar(max)" />
+          <Property Name="State" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TaskList">
+          <Key>
+            <PropertyRef Name="UID" />
+          </Key>
+          <Property Name="UID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TaskListNo" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="TaskListName" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="TaskUID" Type="int" Nullable="false" />
+          <Property Name="DocumentUID" Type="int" Nullable="false" />
+          <Property Name="PictureSize" Type="varchar" MaxLength="32" />
+          <Property Name="PictureResolution" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="PictureBackground" Type="varchar" MaxLength="32" />
+          <Property Name="DocumentType" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="Creater" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="Editor" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="EditTime" Type="datetime" />
+          <Property Name="Remark" Type="varchar(max)" />
+          <Property Name="State" Type="int" Nullable="false" />
+          <Property Name="ProjectId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UID" />
+          </Key>
+          <Property Name="UID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserNo" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="Creater" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="Editor" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="EditTime" Type="datetime" Nullable="false" />
+          <Property Name="Remark" Type="varchar(max)" />
+          <Property Name="State" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserPermission">
+          <Key>
+            <PropertyRef Name="UID" />
+          </Key>
+          <Property Name="UID" Type="int" Nullable="false" />
+          <Property Name="UserPermissionNo" Type="int" Nullable="false" />
+          <Property Name="UserNo" Type="int" Nullable="false" />
+          <Property Name="PermissionID" Type="int" Nullable="false" />
+          <Property Name="Pdownload" Type="int" Nullable="false" />
+          <Property Name="Pupload" Type="int" Nullable="false" />
+          <Property Name="Pmodify" Type="int" Nullable="false" />
+          <Property Name="Pdelete" Type="int" Nullable="false" />
+          <Property Name="Creater" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="Editor" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="EditTime" Type="datetime" Nullable="false" />
+          <Property Name="State" Type="int" Nullable="false" />
+          <Property Name="Remark" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Version">
+          <Key>
+            <PropertyRef Name="UID" />
+          </Key>
+          <Property Name="UID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VersionNo" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="IconID" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="VersionName" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="Remark" Type="varchar(max)" />
+          <Property Name="State" Type="int" Nullable="false" />
+        </EntityType>
+        <Function Name="GetUnfinishTaskPer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="UIDBModelStoreContainer">
+          <EntitySet Name="Document" EntityType="Self.Document" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DocumentFolder" EntityType="Self.DocumentFolder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DocumentTag" EntityType="Self.DocumentTag" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Folder" EntityType="Self.Folder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Permission" EntityType="Self.Permission" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Task" EntityType="Self.Task" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TaskList" EntityType="Self.TaskList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserPermission" EntityType="Self.UserPermission" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Version" EntityType="Self.Version" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="UIDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="UIDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Document" EntityType="UIDBModel.Document" />
+          <EntitySet Name="Permission" EntityType="UIDBModel.Permission" />
+          <EntitySet Name="Project" EntityType="UIDBModel.Project" />
+          <EntitySet Name="Task" EntityType="UIDBModel.Task" />
+          <EntitySet Name="User" EntityType="UIDBModel.User" />
+          <EntitySet Name="UserPermission" EntityType="UIDBModel.UserPermission" />
+          <EntitySet Name="Version" EntityType="UIDBModel.Version" />
+          <FunctionImport Name="GetFolderInfo" ReturnType="Collection(UIDBModel.GetFolderInfo_Result)">
+          <Parameter Name="createDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="GetUnfinishTaskPer" ReturnType="Collection(UIDBModel.GetUnfinishTaskPer_Result)" />
+          <EntitySet Name="TaskList" EntityType="UIDBModel.TaskList" />
+          <EntitySet Name="Folder" EntityType="UIDBModel.Folder" />
+          <EntitySet Name="DocumentFolder" EntityType="UIDBModel.DocumentFolder" />
+          <EntitySet Name="DocumentTag" EntityType="UIDBModel.DocumentTag" />
+        </EntityContainer>
+        <EntityType Name="Document">
+          <Key>
+            <PropertyRef Name="UID" />
+          </Key>
+          <Property Name="UID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DocumentNo" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="DocumentName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="DocumentType" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="PictureSize" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="PictureResolution" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="PictureBackground" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="DocumentPath" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Creater" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Editor" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="EditTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Permission">
+          <Key>
+            <PropertyRef Name="UID" />
+          </Key>
+          <Property Name="UID" Type="Int32" Nullable="false" />
+          <Property Name="PermissionNo" Type="Int32" Nullable="false" />
+          <Property Name="PermissionName" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="UID" />
+          </Key>
+          <Property Name="UID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectNo" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="ProjectName" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="Creater" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="CreateTime" Type="DateTime" Precision="3" />
+          <Property Name="Editor" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="EditTime" Type="DateTime" Precision="3" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="UID" />
+          </Key>
+          <Property Name="UID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TaskNo" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="TaskName" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="Creater" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Editor" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="EditTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UID" />
+          </Key>
+          <Property Name="UID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserNo" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="Creater" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Editor" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="EditTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserPermission">
+          <Key>
+            <PropertyRef Name="UID" />
+          </Key>
+          <Property Name="UID" Type="Int32" Nullable="false" />
+          <Property Name="UserPermissionNo" Type="Int32" Nullable="false" />
+          <Property Name="UserNo" Type="Int32" Nullable="false" />
+          <Property Name="PermissionID" Type="Int32" Nullable="false" />
+          <Property Name="Pdownload" Type="Int32" Nullable="false" />
+          <Property Name="Pupload" Type="Int32" Nullable="false" />
+          <Property Name="Pmodify" Type="Int32" Nullable="false" />
+          <Property Name="Pdelete" Type="Int32" Nullable="false" />
+          <Property Name="Creater" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Editor" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="EditTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="State" Type="Int32" Nullable="false" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Version">
+          <Key>
+            <PropertyRef Name="UID" />
+          </Key>
+          <Property Name="UID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VersionNo" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="IconID" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="VersionName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="Int32" Nullable="false" />
+        </EntityType>
+        <ComplexType Name="GetFolderInfo_Result">
+          <Property Type="Int32" Name="UID" Nullable="false" />
+          <Property Type="String" Name="FolderNo" Nullable="false" MaxLength="128" />
+          <Property Type="String" Name="FolderName" Nullable="false" MaxLength="32" />
+          <Property Type="Int32" Name="FatherID" Nullable="true" />
+          <Property Type="String" Name="Creater" Nullable="false" MaxLength="32" />
+          <Property Type="DateTime" Name="CreateTime" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Editor" Nullable="false" MaxLength="32" />
+          <Property Type="DateTime" Name="EditTime" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Remark" Nullable="true" />
+          <Property Type="Int32" Name="State" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetUnfinishTaskPer_Result">
+          <Property Type="Int32" Name="UID" Nullable="false" />
+          <Property Type="String" Name="TaskName" Nullable="false" MaxLength="32" />
+          <Property Type="String" Name="Per" Nullable="true" MaxLength="11" />
+          <Property Type="Int32" Name="TotalCount" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="TaskList">
+          <Key>
+            <PropertyRef Name="UID" />
+          </Key>
+          <Property Name="UID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TaskListNo" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="TaskListName" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="TaskUID" Type="Int32" Nullable="false" />
+          <Property Name="DocumentUID" Type="Int32" Nullable="false" />
+          <Property Name="PictureSize" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="PictureResolution" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="PictureBackground" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="DocumentType" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="Creater" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Editor" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="EditTime" Type="DateTime" Precision="3" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="Int32" Nullable="false" />
+          <Property Name="ProjectId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Folder">
+          <Key>
+            <PropertyRef Name="UID" />
+          </Key>
+          <Property Name="UID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FolderNo" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="FolderName" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="FatherID" Type="Int32" />
+          <Property Name="Creater" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="CreateTime" Type="DateTime" Precision="3" />
+          <Property Name="Editor" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="EditTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DocumentFolder">
+          <Key>
+            <PropertyRef Name="UID" />
+          </Key>
+          <Property Name="UID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DocumentFolderNo" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="FolderUID" Type="Int32" Nullable="false" />
+          <Property Name="DocumentUID" Type="Int32" Nullable="false" />
+          <Property Name="Creater" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Editor" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="EditTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DocumentTag">
+          <Key>
+            <PropertyRef Name="UID" />
+          </Key>
+          <Property Name="UID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DocumentTagNo" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="DocumentUID" Type="Int32" Nullable="false" />
+          <Property Name="Tag" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="Creater" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Editor" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="EditTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="Int32" Nullable="false" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="UIDBModelStoreContainer" CdmEntityContainer="UIDBEntities">
+          <EntitySetMapping Name="Document">
+            <EntityTypeMapping TypeName="UIDBModel.Document">
+              <MappingFragment StoreEntitySet="Document">
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="EditTime" ColumnName="EditTime" />
+                <ScalarProperty Name="Editor" ColumnName="Editor" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="Creater" ColumnName="Creater" />
+                <ScalarProperty Name="DocumentPath" ColumnName="DocumentPath" />
+                <ScalarProperty Name="PictureBackground" ColumnName="PictureBackground" />
+                <ScalarProperty Name="PictureResolution" ColumnName="PictureResolution" />
+                <ScalarProperty Name="PictureSize" ColumnName="PictureSize" />
+                <ScalarProperty Name="DocumentType" ColumnName="DocumentType" />
+                <ScalarProperty Name="DocumentName" ColumnName="DocumentName" />
+                <ScalarProperty Name="DocumentNo" ColumnName="DocumentNo" />
+                <ScalarProperty Name="UID" ColumnName="UID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Permission">
+            <EntityTypeMapping TypeName="UIDBModel.Permission">
+              <MappingFragment StoreEntitySet="Permission">
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="PermissionName" ColumnName="PermissionName" />
+                <ScalarProperty Name="PermissionNo" ColumnName="PermissionNo" />
+                <ScalarProperty Name="UID" ColumnName="UID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Project">
+            <EntityTypeMapping TypeName="UIDBModel.Project">
+              <MappingFragment StoreEntitySet="Project">
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="EditTime" ColumnName="EditTime" />
+                <ScalarProperty Name="Editor" ColumnName="Editor" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="Creater" ColumnName="Creater" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="ProjectNo" ColumnName="ProjectNo" />
+                <ScalarProperty Name="UID" ColumnName="UID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Task">
+            <EntityTypeMapping TypeName="UIDBModel.Task">
+              <MappingFragment StoreEntitySet="Task">
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="EditTime" ColumnName="EditTime" />
+                <ScalarProperty Name="Editor" ColumnName="Editor" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="Creater" ColumnName="Creater" />
+                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
+                <ScalarProperty Name="TaskNo" ColumnName="TaskNo" />
+                <ScalarProperty Name="UID" ColumnName="UID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="UIDBModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="EditTime" ColumnName="EditTime" />
+                <ScalarProperty Name="Editor" ColumnName="Editor" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="Creater" ColumnName="Creater" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserNo" ColumnName="UserNo" />
+                <ScalarProperty Name="UID" ColumnName="UID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserPermission">
+            <EntityTypeMapping TypeName="UIDBModel.UserPermission">
+              <MappingFragment StoreEntitySet="UserPermission">
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="EditTime" ColumnName="EditTime" />
+                <ScalarProperty Name="Editor" ColumnName="Editor" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="Creater" ColumnName="Creater" />
+                <ScalarProperty Name="Pdelete" ColumnName="Pdelete" />
+                <ScalarProperty Name="Pmodify" ColumnName="Pmodify" />
+                <ScalarProperty Name="Pupload" ColumnName="Pupload" />
+                <ScalarProperty Name="Pdownload" ColumnName="Pdownload" />
+                <ScalarProperty Name="PermissionID" ColumnName="PermissionID" />
+                <ScalarProperty Name="UserNo" ColumnName="UserNo" />
+                <ScalarProperty Name="UserPermissionNo" ColumnName="UserPermissionNo" />
+                <ScalarProperty Name="UID" ColumnName="UID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Version">
+            <EntityTypeMapping TypeName="UIDBModel.Version">
+              <MappingFragment StoreEntitySet="Version">
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="VersionName" ColumnName="VersionName" />
+                <ScalarProperty Name="IconID" ColumnName="IconID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="VersionNo" ColumnName="VersionNo" />
+                <ScalarProperty Name="UID" ColumnName="UID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetUnfinishTaskPer" FunctionName="UIDBModel.Store.GetUnfinishTaskPer">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="UIDBModel.GetUnfinishTaskPer_Result">
+                <ScalarProperty Name="UID" ColumnName="UID" />
+                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
+                <ScalarProperty Name="Per" ColumnName="Per" />
+                <ScalarProperty Name="TotalCount" ColumnName="TotalCount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="TaskList">
+            <EntityTypeMapping TypeName="UIDBModel.TaskList">
+              <MappingFragment StoreEntitySet="TaskList">
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="EditTime" ColumnName="EditTime" />
+                <ScalarProperty Name="Editor" ColumnName="Editor" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="Creater" ColumnName="Creater" />
+                <ScalarProperty Name="DocumentType" ColumnName="DocumentType" />
+                <ScalarProperty Name="PictureBackground" ColumnName="PictureBackground" />
+                <ScalarProperty Name="PictureResolution" ColumnName="PictureResolution" />
+                <ScalarProperty Name="PictureSize" ColumnName="PictureSize" />
+                <ScalarProperty Name="DocumentUID" ColumnName="DocumentUID" />
+                <ScalarProperty Name="TaskUID" ColumnName="TaskUID" />
+                <ScalarProperty Name="TaskListName" ColumnName="TaskListName" />
+                <ScalarProperty Name="TaskListNo" ColumnName="TaskListNo" />
+                <ScalarProperty Name="UID" ColumnName="UID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Folder">
+            <EntityTypeMapping TypeName="UIDBModel.Folder">
+              <MappingFragment StoreEntitySet="Folder">
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="EditTime" ColumnName="EditTime" />
+                <ScalarProperty Name="Editor" ColumnName="Editor" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="Creater" ColumnName="Creater" />
+                <ScalarProperty Name="FatherID" ColumnName="FatherID" />
+                <ScalarProperty Name="FolderName" ColumnName="FolderName" />
+                <ScalarProperty Name="FolderNo" ColumnName="FolderNo" />
+                <ScalarProperty Name="UID" ColumnName="UID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocumentFolder">
+            <EntityTypeMapping TypeName="UIDBModel.DocumentFolder">
+              <MappingFragment StoreEntitySet="DocumentFolder">
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="EditTime" ColumnName="EditTime" />
+                <ScalarProperty Name="Editor" ColumnName="Editor" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="Creater" ColumnName="Creater" />
+                <ScalarProperty Name="DocumentUID" ColumnName="DocumentUID" />
+                <ScalarProperty Name="FolderUID" ColumnName="FolderUID" />
+                <ScalarProperty Name="DocumentFolderNo" ColumnName="DocumentFolderNo" />
+                <ScalarProperty Name="UID" ColumnName="UID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocumentTag">
+            <EntityTypeMapping TypeName="UIDBModel.DocumentTag">
+              <MappingFragment StoreEntitySet="DocumentTag">
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="EditTime" ColumnName="EditTime" />
+                <ScalarProperty Name="Editor" ColumnName="Editor" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="Creater" ColumnName="Creater" />
+                <ScalarProperty Name="Tag" ColumnName="Tag" />
+                <ScalarProperty Name="DocumentUID" ColumnName="DocumentUID" />
+                <ScalarProperty Name="DocumentTagNo" ColumnName="DocumentTagNo" />
+                <ScalarProperty Name="UID" ColumnName="UID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

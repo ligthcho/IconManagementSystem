@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1d71bd96eac748ad9228a0df36ea82d2" Name="Diagram1" ZoomLevel="70">
+        <EntityTypeShape EntityType="UIDBModel.Document" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="UIDBModel.Permission" Width="1.5" PointX="4.75" PointY="4.75" />
+        <EntityTypeShape EntityType="UIDBModel.Project" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="UIDBModel.Task" Width="1.5" PointX="6.75" PointY="4.75" />
+        <EntityTypeShape EntityType="UIDBModel.User" Width="1.5" PointX="0.75" PointY="8.75" />
+        <EntityTypeShape EntityType="UIDBModel.UserPermission" Width="1.5" PointX="2.75" PointY="8.75" />
+        <EntityTypeShape EntityType="UIDBModel.Version" Width="1.5" PointX="4.75" PointY="8.75" />
+        <EntityTypeShape EntityType="UIDBModel.TaskList" Width="1.5" PointX="9.375" PointY="0.75" />
+        <EntityTypeShape EntityType="UIDBModel.Folder" Width="1.5" PointX="7.375" PointY="9.75" />
+        <EntityTypeShape EntityType="UIDBModel.DocumentFolder" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="UIDBModel.DocumentTag" Width="1.5" PointX="9.375" PointY="5.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,52 @@
+﻿@{
+	Layout = "~/Views/Shared/MyLayout.cshtml";
+}
+<!--主体内容区 -->
+<div class="icons-container wrapper-content animated fadeInRight management-content">
+	<h2>管理工作任务</h2>
+	<div class="management-wrap">
+		<table>
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>任务名称</th>
+					<th>已完成度</th>
+					<th>发布日期</th>
+					<th colspan="2">操作</th>
+				</tr>
+
+			</thead>
+			<tbody>
+				<!--表格部分-->
+			</tbody>
+		</table>
+
+	</div>
+	<!-- 底部页面跳转 -->
+	<div class="text-center">
+			<div class="page-num">
+				<label>每页显示</label>
+				<select id="pageSize">
+					<option value="5">5</option>
+					<option value="10">10</option>
+					<option value="15">15</option>
+				</select>
+			</div>
+		<ul id="Paginator"></ul>
+			@*<div class="btn-group">
+				<button class="btn btn-white" type="button" id="pagePar"><i class="fa fa-chevron-left"></i></button>
+				<button class="btn btn-white page">1</button>
+				<button class="btn btn-white active page">2</button>
+				<button class="btn btn-white page">3</button>
+				<button class="btn btn-white page">4</button>
+				<button class="btn btn-white page">5</button>
+				<button class="btn btn-white page">6</button>
+				<button class="btn btn-white page">7</button>
+				<button class="btn btn-white" type="button" id="pageNext"><i class="fa fa-chevron-right"></i> </button>
+			</div>*@
+		</div>
+</div>
+@section script{
+	<script src="/Scripts/user/bootstrap-paginator.js"></script>
+    <script src="/Scripts/task/managementTasks.js"></script>
+}

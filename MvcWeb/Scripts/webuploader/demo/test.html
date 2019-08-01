@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Test</title>
+    <script src="../../jquery/jquery-1.10.2.min.js"></script>
+    <script src="../webuploader.min.js"></script>
+    <script src="webuploader.demo.js"></script>
+</head>
+<body>
+    <p>tips: 先加载webuploader，再打开上传</p>
+
+    <input type="button" value="加载webuploader" id="btnLoadWebuploader" />
+
+    <input type="button" value="打开上传图片" id="btnUploadImage" />
+
+    <script type="text/javascript">
+
+        $('#btnLoadWebuploader').click(function () {
+            //初始化加载上传组件
+            window.itop.WebUploader = window.itop.WebUploader.Load('imgPicker');
+        });
+
+        $('#btnUploadImage').click(function () {
+            $('#imgPicker').find('input').click();
+        });
+
+    </script>
+</body>
+</html>

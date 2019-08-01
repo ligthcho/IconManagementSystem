@@ -1,0 +1,200 @@
+﻿@{
+	ViewBag.Title = "UploadDetial";
+	Layout = "~/Views/Shared/MyLayout.cshtml";
+}
+
+@section css{
+	<!-- 文件拖拽 -->
+	<link rel="stylesheet" type="text/css" href="/Content/css/zzsc.css">
+	<link rel="stylesheet" type="text/css" href="/Content/css/ssi-uploader.min.css">
+
+	<link href="/Content/css/animate.css" rel="stylesheet">
+	<link href="/Content/css/style.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="/Content/css/iconStyle.css">
+}
+<!--主体内容区 -->
+<div class="wrapper-content animated fadeInRight">
+	<div class="up-file">
+		<a href="#" class="upload-ImageIcon">
+			<img src="/Content/images/upFile.png" alt="">
+		</a>
+		<p class="up-tips">将图片文件拖拽至此，或<span class="uploader-file-click"><!-- <input type="file" name="file-up"> -->点击修改</span></p>
+		<input type="file" multiple id="ssi-upload" />
+	</div>
+</div>
+@section script{
+	<script src="/Scripts/user/ssi-uploader.js"></script>
+	@*<script src="/Scripts/user/uploadFile.js"></script>*@
+	<script>
+		@{var CommonResult = @ViewBag.CommonResult;}
+		var Result=@Html.Raw(CommonResult),UID;
+		$(".upload-ImageIcon img").attr("src",Result.data.Document.DocumentPath);
+
+		$('#ssi-upload').ssi_uploader({
+			url: '/Upload/UpdateImage?key=fileuploadkey',//上传文件地址
+			//data: { "Tag": "", "ProID":"" },
+			maxFileSize: 6,
+			allowed: ['jpg', 'gif', 'png'],
+			tag:'2',
+			beforeUpload: function () {
+				console.log("文件上传前执行的回调函数");
+			},
+			ajaxOptions: {
+				success: function (data) {
+					data = $.parseJSON(data);
+					console.log(data);
+
+				}
+			},
+			definedFunction:function () {
+				$("#picSize").html(Result.data.Document.PictureSize);
+				$("#picResolution").find("option[value="+Result.data.Document.PictureResolution+"]").attr("selected",true);
+				$("#picName").val(Result.data.Document.DocumentName);
+				$("#img-tag").val(Result.data.DocumentTag == null ? "" :Result.data.DocumentTag.Tag);
+				//递归函数，生成树
+				var getJsonTree = function (data, parentId) {
+					var itemArr = [];
+					for (var i = 0; i < data.length; i++) {
+						var node = data[i];
+						//data.splice(i, 1)
+						if (node.FatherID == parentId) {
+							var newNode = { id: node.UID, text: node.FolderName, state: { "opened": true }, children: getJsonTree(data, node.UID) };
+							if (newNode.children.length == 0) {
+								newNode["icon"] = "none";
+							}
+							itemArr.push(newNode);
+						}
+					}
+					return itemArr;
+				}
+				$.jstree.destroy("#sys_tree");
+				$('#sys_tree').jstree({
+					"core": {
+						"data": function (obj, callback) {
+							var jsonarray = "";
+							//查询项目信息
+							$.ajax({
+								type: "POST",
+								url: "/Folder/Show",
+								dataType: "json",
+								success: function (json) {
+									callback.call(this, getJsonTree(json.data, -1));
+								},
+								error: function (jqXHR) {
+									console.log(jqXHR.status);
+								}
+							});
+						},
+					},
+					"check_callback": true,
+					"expand_selected_onload":true,
+					'types': {//这里就是菜单图标的显示格式
+						"default": {
+							"icon": "fa fa-folder tree-item-icon-color icon-lg"
+						},
+						"file": {
+							"icon": "fa fa-file tree-item-icon-color icon-lg"
+						}
+					},
+					'multiple': true,
+					'plugins': [  //插件，下面是插件的功能
+						'types',//可以设置其图标，在上面的一样。
+						'checkbox'
+					],
+					"checkbox": {
+						"keep_selected_style": false,//是否默认选中
+						"three_state": false,//父子级别级联选择
+						"tie_selection": true
+					},
+				})
+				$('#sys_tree').on("changed.jstree", function (e, data) {
+					var checked = $("#sys_tree").jstree("get_checked");
+					//addDataInfo($(".ssi-choose"), "data-info", "sysID", checked);
+				});
+				$('#sys_tree').on("loaded.jstree", function (e, data) {//默认选中
+					$.each(Result.data.ListDocumentFolder,function(i,val){
+						var obj = data.instance.get_node(val.FolderUID);
+						data.instance.select_node(obj);
+					})
+				});
+			}
+		});
+		// 点击上传事件触发
+		$(".uploader-files-click").click(function () {
+			$(".ssi-uploadInput").trigger('click');
+		});
+		$(".up-file").on('mouseenter', '.ssi-imgToUploadTable', function () {
+			var _ths = $(this);
+			_ths.find(".del-icon").css("display", "block");
+		});
+		//点击时给图标添加边框，以及填充它的相关信息
+		$(".up-file").on('click', '.ssi-imgToUploadTable', function () {
+			var _ths = $(this);
+			$(".icon-previewBox .ssi-imgToUploadTable").css("border", "2px solid #fff").removeClass("ssi-choose");
+			_ths.css("border", "2px solid #01cd78");
+			_ths.addClass("ssi-choose");
+			// 获取上传时的名称填入详细信息中
+			var iconName = _ths.find(".icon-current-name td").text();
+			_ths.parents(".icon-previewBox").find(".icon-info .icon-name").val(iconName);
+			var image = new Image();
+			image.src = _ths.find("img").attr("src");
+			var imgWidth = 0, imgHeight = 0;
+			image.onload = function () {
+				imgWidth = image.width;
+				imgHeight = image.height;
+				$("#picSize").html(imgWidth + "X" + imgHeight);//填充尺寸
+			};
+		});
+		//上传按钮点击事件
+		$(".up-file").on('click', '#submitfilesBtn', function () {
+			var ps = $("#picSize").html(),
+			    pr = $("#picResolution").val(),
+			    pn = $("#picName").val(),
+			    it = $("#img-tag").val(),
+			    st = $("#sys_tree").jstree("get_checked");
+			var _thsJson = $(".ssi-imgToUploadTable").attr("data-info");
+			if (ps == "" || ps== undefined ||
+				pr == "" || pr == undefined ||
+				it == "" || it == undefined||
+				st == "" || st == undefined||
+				pn == "" || pn == undefined) {
+				alert("图标信息未填写完成，请检查！");
+			}else{
+				if($(".ssi-choose").length>0){
+					addDataInfo($(".ssi-choose"), "data-info", "tag", it);
+					addDataInfo($(".ssi-choose"), "data-info", "size", ps);
+					addDataInfo($(".ssi-choose"), "data-info", "sysID",st);
+					addDataInfo($(".ssi-choose"), "data-info", "dpi", pr);
+					addDataInfo($(".ssi-choose"), "data-info", "name", pn);
+					addDataInfo($(".ssi-choose"), "data-info", "uid", UID);
+					$("#ssi-uploadBtn").trigger('click');
+				}else{
+					//查询项目信息
+					$.ajax({
+						type: "POST",
+						url: "/Upload/UpdateImageInfo",
+						dataType: "json",
+						data:{"tag":it,"size":ps,"sysID":st.toString(),"dpi":pr,"name":pn,"uid":Result.data.Document.UID,"path":$(".upload-ImageIcon img").attr("src"),"type":Result.data.Document.DocumentType},
+						success: function (json) {
+							if(json.code == 1){
+								alert("修改成功");
+							}else{
+								alert(json.errmsg);
+							}
+						},
+						error: function (jqXHR) {
+							console.log(jqXHR.status);
+						}
+					});
+				}
+			}
+		});
+		//对象的属性json值增加对象
+		function addDataInfo(target, property, key, val) {
+			var ssiInfo = target,
+			ssiData = JSON.parse(ssiInfo.attr(property));
+			ssiData[key] = val;
+			ssiInfo.attr(property, JSON.stringify(ssiData));
+		}
+	</script>
+}

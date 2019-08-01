@@ -1,0 +1,151 @@
+﻿
+@{
+    ViewBag.Title = "ModifyTasks";
+    Layout = "~/Views/Shared/MyLayout.cshtml";
+}
+
+@section css{
+	<link href="/Scripts/jexcel/jquery.jexcel.css" rel="stylesheet" />
+	<style type="text/css">
+		#mytable
+		{
+			width: 600px;
+			margin: 50px auto;
+		}
+
+		.code
+		{
+			width: 800px;
+			margin: 0 auto;
+		}
+	</style>
+}
+<!--主体内容区 -->
+<div class="wrapper-content animated fadeInRight publish-content">
+	<h2>修改工作任务</h2>
+	<div class="publish-wrap" id="iframe">
+		<div class="publish-detail clearfix">
+			<label>任务名称：</label><input type="text" id="taskName" name="">
+			<label>备注：</label><textarea id="remark"></textarea>
+		</div>
+		<button class="publish-btn" id="modifyBtn">修改</button>
+		<div id="gridTable"> @*class="publish-icons"*@</div>
+	</div>
+	<div class="table-operate-wrap">
+		<input class="add-row" id="add-row" type="button" value="添加新行" />
+		<input class="delete-rows" id="delete-rows" type="button" value="删除选中行" />
+	</div>
+	<div id="publish-tasklist" class="task-table-wrap"></div>
+
+</div>
+@section script{
+	<script src="/Scripts/jexcel/jquery.jexcel.js"></script>
+    <script>
+      @{var CommonResult = @ViewBag.CommonResult;}
+		var Result = @Html.Raw(CommonResult),UID;
+		console.log(Result);
+		$("#taskName").val(Result.data.Task.TaskName);
+		$("#remark").val(Result.data.Task.Remark);
+		var data = [];
+		$.each(Result.data.ListTaskList, function(i,val){
+			var temp = [];
+			temp.push(val.UID);
+			temp.push(val.TaskListName);
+			temp.push(val.PictureSize);
+			temp.push(val.PictureResolution);
+			temp.push(val.PictureBackground);
+			temp.push(val.DocumentType);
+			temp.push(val.Remark);
+			data.push(temp);
+		});
+	    data = data;
+		$('#publish-tasklist').jexcel({
+			data: data,
+			colHeaders: ['ID','任务清单名称', '图片尺寸', '图片分辨率', '图片背景色', '文件类型', '备注'],
+			colWidths: [50,200, 100, 100, 100, 100, 340],
+			colID: ['UID','TaskListName', 'PictureSize', 'PictureResolution', 'PictureBackground', 'DocumentType', 'Remark'],
+			columns:[{type:'text',readOnly:true }]
+		});
+		$("#modifyBtn").click(function(){
+			var TaskName = $('#taskName').val(),
+	            Remark = $('#remark').val();
+			if (TaskName.length == 0 || Remark.length == 0) {
+				alert('任务名称或备注不能为空');
+				return;
+			}
+			$.ajax({
+				type: "POST",
+				url: "/Task/Update",
+				dataType: "json",
+				async: false,
+				data: { "TaskName": TaskName, "Remark": Remark,"UID":Result.data.Task.UID },
+				success: function (json) {
+					console.log(json);
+					var TaskID = Result.data.Task.UID,
+	                    TaskList = [],AddTaskList = [];
+					$("#publish-tasklist tr").each(function (index, element) {
+						var ths = $(this);
+						if (index != 0) {
+							var a = $(element).children();//$(element)代表每行tr，后面的children代表tr下面的td，a即这一行所有td的集合
+							pushData = {},addData = {};
+							var boolType = false;
+							for (var i = 1; i < a.length; i++) {
+								var colText = a.eq(i).text(),addCol =  a.eq(1 ).text();
+								if((addCol == undefined ||addCol == 'undefined' || addCol == null || addCol == "") && a.eq(1).attr('data-header') == "UID"){
+									if(i!=1){
+										addData[a.eq(i).attr('data-header')] = colText;
+									}
+									
+									boolType = true;
+								}else{
+									boolType = false;
+									pushData[a.eq(i).attr('data-header')] = colText;
+								}
+							}
+							if(boolType){
+								addData.TaskUID = TaskID;
+								AddTaskList.push(addData);
+							}else{
+								pushData.TaskUID = TaskID;
+								TaskList.push(pushData);
+							}
+						}
+					});
+					if(TaskList.length>0){
+						//添加子任务列表
+						$.ajax({
+							type: "POST",
+							url: "/TaskList/Update",
+							dataType: "json",
+							data: { "TaskList": JSON.stringify(TaskList),"UID": Result.data.Task.UID },
+							success: function (json) {
+								console.log(json);
+							},
+							error: function (jqXHR) {
+								console.log(jqXHR.status);
+							}
+						});
+					}
+					if(AddTaskList.length>0){
+						//添加子任务列表
+						$.ajax({
+							type: "POST",
+							url: "/TaskList/AddList",
+							dataType: "json",
+							data: { "TaskList": JSON.stringify(AddTaskList) },
+							success: function (json) {
+								if(json.code == 1){
+									alert("修改成功");
+									location.reload();
+								}
+							},
+							error: function (jqXHR) {
+								console.log(jqXHR.status);
+							}
+						});
+					}
+				}
+			});
+		});
+	</script>
+}

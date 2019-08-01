@@ -1,0 +1,218 @@
+﻿@{
+	Layout = "~/Views/Shared/MyLayout.cshtml";
+}
+<!-- 主体内容的头部 -->
+<div class="row wrapper border-bottom page-heading">
+	<div class="col-lg-9 col-xs-7" style="padding-left: 10px;">
+		<ul class="breadcrumb">
+			<li class="choose-all">
+				<input type="checkbox" name="">全选
+			</li>
+			<li class="move"id="move" data-toggle="modal" data-target="#move-to"><span class="move-t"> </span><span>移动于</span></li>
+			<li class="move" id="restore" data-toggle="modal" data-target="#move-to" style="display:none"><span class="fa fa-mail-reply" style="margin-right: 4px;"> </span><span>还原于</span></li>
+			<li class="delete"><span class="glyphicon glyphicon-remove" style="color: #f4546b;"> </span>删除</li>
+			<li class="dropdown bg-color">
+				<a id="colorpicker" class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+					<span class="glyphicon glyphicon-th"> </span>背景色<b class="caret"></b>
+				</a>
+			</li>
+			<li class="dropdown sort">
+				<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+					<span class="glyphicon glyphicon-sort-by-alphabet">排序<b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu m-t-xs" data-stopPropagation="true">
+					<li class="up" ><i class="circle c-up"></i><a href="#" id="DocumentName">名称</a></li>
+					<li class="up"><i></i><a href="#" id="EditTime">修改日期</a></li>
+					<li class="divider"></li>
+					<li class="down" ><i class="circle c-down"></i><a href="#" id="asc">递增</a></li>
+					<li class="down"><i></i><a href="#" id="desc">递减</a></li>
+				</ul>
+			</li>
+			<li class="dropdown filter">
+				<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+					<span class="glyphicon glyphicon-filter"></span>筛选<b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu m-t-xs">
+					<li type="1" data-info="16X16"><a href="#">16*16</a></li>
+					<li type="2" data-info="32X32"><a href="#">32*32</a></li>
+					<li type="3" data-info="48X48"><a href="#">48*48</a></li>
+					<li type="4" data-info="64X64"><a href="#">64*64</a></li>
+					<li type="5" data-info="128X128"><a href="#">128*128</a></li>
+					<li type="0" data-info="0"><a href="#">其它</a></li>
+				</ul>
+			</li>
+
+
+		</ul>
+	</div>
+	<!-- 滑动条 -->
+	<div class="col-lg-3 col-xs-3 roll-right">
+		<ul class="clearfix" style="float: right;">
+			<li class="clearfix" style="float: left;">
+				<div class="ibox-content">
+					<!-- <div id="ionrange_2"></div> -->
+					<input type="text" id="ionrange_2" name="">
+				</div>
+			</li>
+			<li class="clearfix" style="float: left;position: relative;">
+				<a class="dropdown-toggle count-info sort-type" data-toggle="dropdown" href="#">
+					<span class="glyphicon glyphicon-th-large"> </span><b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu m-t-xs display-mode" style="margin-left: 20%;">
+					<li><a href="#">显示模式1</a></li>
+					<li><a href="#">显示模式2</a></li>
+					<li><a href="#">显示模式3</a></li>
+					<li><a href="#">显示模式4</a></li>
+				</ul>
+			</li>
+		</ul>
+
+	</div>
+</div>
+<div class="wrapper-content animated fadeInRight">
+	<div class="row icons-content">
+		<div class="col-lg-12" style="padding: 0;">
+			<div class="ibox float-e-margins">
+				<div class="ibox-content">
+					<div class="lightBoxGallery">
+						<div class="icons-container clearfix" data-down="[]">
+							<!--图标列表区-->
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<!-- 底部页面跳转 -->
+	<div class="text-center">
+		<div class="page-num">
+			<label>每页显示</label>
+			<select id="pageSize-Index">
+				<option value="20">20</option>
+				<option value="30">30</option>
+				<option value="60">60</option>
+			</select>
+		</div>
+		<ul id="Paginator-Index"></ul>
+		@*<div class="btn-group">
+				<button class="btn btn-white" type="button"><i class="fa fa-chevron-left"></i></button>
+				<button class="btn btn-white page">1</button>
+				<button class="btn btn-white active page">2</button>
+				<button class="btn btn-white page">3</button>
+				<button class="btn btn-white page">4</button>
+				<button class="btn btn-white page">5</button>
+				<button class="btn btn-white page">6</button>
+				<button class="btn btn-white page">7</button>
+				<button class="btn btn-white" type="button"><i class="fa fa-chevron-right"></i> </button>
+			</div>*@
+	</div>
+</div>
+<!-- 图标下载弹出框 -->
+<div class="modal icon-down" id="icon-down" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel"></h4><!--显示标题(图标名)-->
+			</div>
+			<div class="modal-body">
+				<div class="clearfix">
+					<div class="modal-l">
+						<div class="bg-icon"><img class="icon-l" id="img-show" /></div>  <!--显示图标-->
+						<ul class="operate">
+							<li class="size">
+								<select id="img-selectsize">
+									<option value="0">32*32</option>
+									<option value="1">64*64</option>
+									<option value="2">128*128</option>
+								</select>
+							</li>
+							<li class="modify"><a href="#"><span class="glyphicon glyphicon-pencil"></span>修改</a></li>
+							<li class="del">
+								<span class="glyphicon glyphicon-trash" style="color:#f4546b;font-size: 13px;margin-right: 3px;"></span>删除
+							</li>
+							<li class="add-to-list"><span class="glyphicon glyphicon-addsign"></span>添加下载列表</li>
+						</ul>
+					</div>
+					<div class="modal-r">
+						<ul class="clearfix">
+							<li>
+								<span class="iname">图片名称：</span>
+								<span class="ivalue i-name" id="img-name"></span>
+							</li>
+							<li>
+								<span class="iname">图片类型：</span>
+								<span class="ivalue i-ext" id="img-ext"></span>
+							</li>
+							<li>
+								<span class="iname">图片尺寸：</span>
+								<span class="ivalue i-size" id="img-size"></span>
+							</li>
+							<li>
+								<span class="iname">发布者：</span>
+								<span class="ivalue i-designer" id="img-designer"></span>
+							</li>
+							<li>
+								<span class="iname">发布时间：</span>
+								<span class="ivalue i-time" id="img-time"></span>
+							</li>
+							<li>
+								<span class="iname">分辨率：</span>
+								<span class="ivalue i-dpi" id="img-dpi"></span>
+							</li>
+							<li style="height: auto">
+								<span class="iname">所属系统：</span>
+								<ul class="belong-sys clearfix" id="img-sys">
+								</ul>
+							</li>
+							<li style="height: auto">
+								<span class="iname">标签：</span>
+								<ul class="tags clearfix">
+									<li>医疗</li>
+									<li>门诊</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+			<div class="modal-footer" style="margin-top: 38px;">
+			<a class="btn btn-info" id="img-down">下载</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+		<!-- 图标的移动于 -->
+<div class="modal move-to" id="move-to" tabindex="-1" role="dialog" aria-labelledby="move-title">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="move-title">移动于</h4>
+			</div>
+			<div class="modal-body">
+				<div class="project-tree">
+					<!-- 这里树结构
+					<ul></ul> -->
+					<div id="sys_tree"></div>
+				</div>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" id="move-submit">确定</button>   @*data-dismiss="modal" *@
+			</div>
+		</div>
+	</div>
+</div>
+
+@section script{
+   <script type="text/javascript" src="../Scripts/lib/require.js" data-main="../Scripts/main"></script>
+	@*<script src="/Scripts/user/bootstrap-paginator.js"></script>*@
+    <script src="/Scripts/user/index.js"></script>
+	
+}

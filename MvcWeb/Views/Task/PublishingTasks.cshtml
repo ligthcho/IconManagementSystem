@@ -1,0 +1,42 @@
+﻿@{
+	Layout = "~/Views/Shared/MyLayout.cshtml";
+}
+@section css{
+<link href="/Scripts/jexcel/jquery.jexcel.css" rel="stylesheet" />
+<style type="text/css">
+	#mytable
+	{
+		width: 600px;
+		margin: 50px auto;
+	}
+
+	.code
+	{
+		width: 800px;
+		margin: 0 auto;
+	}
+</style>
+}
+			<!--主体内容区 -->
+			<div class="wrapper-content animated fadeInRight publish-content">
+				<h2>发布工作任务</h2>
+				<div class="publish-wrap" id="iframe" >
+					<div class="publish-detail clearfix">
+						<label>任务名称：</label><input type="text" id="taskName" name="">
+						<label>备注：</label><textarea id="remark"></textarea>
+					</div>
+					<div id="gridTable"> @*class="publish-icons"*@</div>
+
+					<button class="publish-btn" id="publishBtn">发布</button>
+
+				</div> 
+                <div class="table-operate-wrap">
+                    <input class="add-row" id="add-row" type="button" value="添加新行" />
+                    <input class="delete-rows" id="delete-rows" type="button" value="删除选中行" />
+                </div>
+				<div id="publish-tasklist" class="task-table-wrap"></div>
+			</div>
+@section script{
+<script src="/Scripts/jexcel/jquery.jexcel.js"></script>
+<script src="/Scripts/task/publishingTasks.js"></script>
+}

@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewBag.Title = "UploadFile";
+    Layout = "~/Views/Shared/MyLayout.cshtml";
+}
+@section css{
+<!-- 文件拖拽 -->
+<link rel="stylesheet" type="text/css" href="/Content/css/zzsc.css">
+<link rel="stylesheet" type="text/css" href="/Content/css/ssi-uploader.min.css">
+
+<link href="/Content/css/animate.css" rel="stylesheet">
+<link href="/Content/css/style.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/Content/css/iconStyle.css">
+
+<link href="/Scripts/webuploader/webuploader.css" rel="stylesheet" />
+<link href="/Scripts/webuploader/style.css" rel="stylesheet" type="text/css" />
+}
+<!--主体内容区 -->
+<div class="wrapper-content animated fadeInRight">
+	<!--头部，相册选择和格式选择-->
+	<div id="uploader">
+		<div class="queueList">
+			<div id="dndArea" class="placeholder">
+				<div id="filePicker"></div>
+				<p>或将文件拖到这里，单次最多可选300个</p>
+			</div>
+		</div>
+		<div class="statusBar" style="display:none;">
+			<div class="progress">
+				<span class="text">0%</span>
+				<span class="percentage"></span>
+			</div>
+			<div class="info"></div>
+			<div class="btns">
+				<div id="filePicker2"></div><div class="uploadBtn">开始上传</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="icon-info" id="uploader-info" style="display:none">
+		<ul>
+			<li>图片尺寸：<span class="icon-size" id="picSize"></span></li>
+			<li>分辨率：<select class="icon-dpi" id="picResolution"><option selected="selected" value="0">96dpi</option> <option value="1">72dpi</option></select></li>
+			<li>图片名称：<input class="icon-name" id="picName" type="text" name="" value="上传时的名称"></li>
+			<li>图片类型：<span class="icon-ext" id="picExt"></span></li>
+            <li>标签：<input class="icon-tag" id="img-tag" type="text" name="" placeholder="以|分隔"></li>
+			<li class="ssi-treeBox" id="img-proid">
+				所属系统：
+				<div class="project-tree">
+					<!-- 这里树结构<ul></ul> -->
+					<div class="folder_tree_json" id="sys_tree">
+
+					</div>
+				</div>
+			</li>
+		</ul>
+
+		<!--<a href="/Upload/Index" class="upload-ImageIcon">
+			<img src="/Content/images/upFile.png" alt="">
+		</a>
+		<p class="up-tips">将图片文件拖拽至此，或<span class="uploader-file-click"><!-- <input type="file" name="file-up">点击上传</span></p>
+        <input type="file" multiple id="ssi-upload" />-->
+	</div>
+
+</div>
+@section script{
+    @*<script src="/Scripts/user/ssi-uploader.js"></script>
+	<script src="/Scripts/user/uploadFile.js"></script>*@
+    <script src="/Scripts/webuploader/webuploader.min.js"></script>
+    <script src="/Scripts/user/upload.js" type="text/javascript"></script>
+	<script src="/Scripts/webuploader/upload.js" type="text/javascript"></script>
+ 
+}

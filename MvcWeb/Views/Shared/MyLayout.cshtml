@@ -1,0 +1,877 @@
+﻿@model Models.User
+<!DOCTYPE html>
+<html>
+
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<title>图标管理系统</title>
+
+	<link href="/Content/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/Content/font-awesome/css/font-awesome.css" rel="stylesheet">
+
+	<!-- 滑动条 -->
+	<link rel="stylesheet" type="text/css" href="/Content/css/ion.rangeSlider.css">
+	<link rel="stylesheet" type="text/css" href="/Content/css/ion.rangeSlider.skinFlat.css">
+	<!-- 树控件 -->
+	<link href="/Content/css/plugins/jsTree/style.min.css" rel="stylesheet">
+	<!-- Gritter -->
+	<link href="/Scripts/plugins/gritter/jquery.gritter.css" rel="stylesheet">
+	<link href="/Content/css/plugins/iCheck/custom.css" rel="stylesheet">
+	<link href="/Content/css/animate.css" rel="stylesheet">
+	<link href="/Content/css/style.css" rel="stylesheet">
+	<link href="/Content/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+
+	<!-- 拾色器 -->
+	<link rel="stylesheet" type="text/css" href="/Content/css/bootstrap-colorpicker.min.css">
+	<link rel="stylesheet" type="text/css" href="/Content/css/iconStyle.css">
+	<!-- extjs style -->
+	<link href="/Content/css/theme-neptune-all.css" rel="stylesheet" />
+	<!-- Toastr style -->
+	 <link href="/Content/css/plugins/toastr/toastr.min.css" rel="stylesheet"> 
+	@RenderSection("css",false)
+</head>
+
+<body>
+
+	<div id="wrapper">
+		<!-- 搜索导航区 -->
+		<nav class="navbar-default navbar-static-side" role="navigation">
+			<div class="sidebar-collapse">
+				<ul class="nav metismenu" id="side-menu">
+					<li class="nav-header">
+						<div class="logo profile-element">
+							<a href="/Home/Index">
+								<h1>udicon</h1>
+							</a>
+						</div>
+						<div class="logo-element">
+							ICON
+						</div>
+					</li>
+					<li style="height: 10px;background-color: #fff;"></li>
+					@*<li class="active">
+							<a href="index.html"><i class="nav-level1"></i> <span class="nav-label">门诊系统</span> <span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level">
+								<li><a href="javascript:;">门诊1</a></li>
+								<li><a href="javascript:;">门诊2</a></li>
+								<li><a href="javascript:;">门诊3</a></li>
+								<li><a href="javascript:;">门诊4</a></li>
+							</ul>
+						</li>
+						<li>
+							<a href="javascript:;"><i class="nav-level1"></i> <span class="nav-label">菜单图标</span></a>
+						</li>
+						<li>
+							<a href="#"><i class="nav-level1"></i> <span class="nav-label">工具栏图标</span><span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level collapse">
+								<li><a href="javascript:;">Flot Charts</a></li>
+								<li><a href="javascript:;">Morris.js Charts</a></li>
+								<li><a href="javascript:;">Rickshaw Charts</a></li>
+							</ul>
+						</li>
+						<li>
+							<a href="mailbox.html"><i class="nav-level1"></i> <span class="nav-label">慢病系统 </span></a>
+							<ul class="nav nav-second-level collapse">
+								<li><a href="mailbox.html">Inbox</a></li>
+								<li><a href="mail_detail.html">Email view</a></li>
+							</ul>
+						</li>
+						<li>
+							<a href="metrics.html"><i class="nav-level1"></i> <span class="nav-label">住院系统</span>  </a>
+						</li>
+						<li>
+							<a href="widgets.html"><i class="nav-level1"></i> <span class="nav-label">妇幼系统</span></a>
+						</li>
+						<li>
+							<a href="#"><i class="nav-level1"></i> <span class="nav-label">健康小屋</span><span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level collapse">
+								<li><a href="form_basic.html">Basic form</a></li>
+								<li><a href="form_advanced.html">Advanced Plugins</a></li>
+							</ul>
+						</li>*@
+					@*<li class="rubbish-box">
+						<a href="#" id="rubbish-click"><i class="nav-del1"></i> <span class="nav-label">回收站</span></a>
+					</li>*@
+				</ul>
+			</div>
+		</nav>
+
+		<div id="page-wrapper" class="gray-bg dashbard-1">
+
+			<div class="row border-bottom">
+				<nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+					<div class="navbar-header">
+						<a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+						<!-- 搜索框 -->
+						<form role="search" class="navbar-form-custom" action="search_results.html">
+							<div class="form-group">
+								<span class="glyphicon glyphicon-search search"></span>
+								<a class="dropdown-toggle dropdown count-info" data-toggle="dropdown" href="#" aria-expanded="true">
+									<b class="caret"></b>
+								</a>
+								<ul id="search-menu" class="dropdown-menu dropdown-alerts">
+									<li class="search-key" data-stopPropagation="true">
+										<label for="search-key">关键字：</label>
+										<input type="text" name="" id="search-key">
+									</li>
+									@*<li class="search-pro" data-stopPropagation="true">
+										<label for="search-pro">所在项目：</label>
+										<select id="search-pro">
+											<option>选择项目名称</option>
+											<option>病人主索引</option>
+											<option>慢病组织</option>
+											<option>量表管理</option>
+										</select>
+									</li>*@
+									<li class="modal-select search-pro" data-stoppropagation="true" id='search-folder-select'>@*dropdown active*@
+										<label for="search-pro">所在项目：</label>
+											<span class='select-choose' data-info=''></span>@*dropdown-toggle  data-toggle="dropdown"*@ 
+											<b class="caret"></b>
+											<div class="m-t-xs project-tree" id=""> @*dropdown-menu*@ 
+												<!-- 这里树结构<ul></ul> -->
+												<div class="folder_tree_json" id="search-folder-tree"></div>
+											</div>
+									</li>					
+									<!-- <li class="search-type" data-stopPropagation="true">
+										<label for="search-type">文件类型：</label>
+										<select id="search-type">
+											<option>选择文件类型</option>
+											<option>jpg</option>
+											<option>gif</option>
+											<option>png</option>
+										</select>
+									</li> -->
+
+									<li class="search-time" data-stopPropagation="true">
+										<label>发布时间</label>
+										<div class="begin-time">
+											<input type="text" placeholder="从" name="" class="begin-val" id="begin-time">
+											<i class="fa fa-calendar"></i>
+										</div>
+										<div class="end-time">
+											<input type="text" placeholder="到" name="" class="end-val" id="end-time">
+											<i class="fa fa-calendar"></i>
+										</div>
+									</li>
+									<li class="search-func" data-stopPropagation="true">
+										<input class="reset-btn" type="button" name="" value="重置">
+										<input class="search-btn" id="search-submit" type="button" name="" value="搜索">
+									</li>
+								</ul>
+								<input type="text" placeholder="搜索" class="form-control" name="top-search" id="top-search">
+							</div>
+						</form>
+					</div>
+					<!-- 右侧信息条目 -->
+					<ul class="nav navbar-top-links navbar-right">
+						<li class="dropdown">
+							<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+								<span class="glyphicon glyphicon glyphicon-user"></span>
+								@{
+									if(Session["User"] != null)
+									{
+										<span id="user-name">@(((Models.User)@Session["User"]).UserName)</span>
+									}
+								}
+								<b class="caret"></b>
+							</a>
+							<ul class="dropdown-menu m-t-xs">
+								<li><a href="#" data-toggle="modal" data-target="#change-login">切换账号</a></li>
+								<li>@Html.ActionLink("退出登录","LoginOut","Home","",new
+							   {
+								   @id = "login-out"
+							   })
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+								<span class="glyphicon glyphicon-send"></span>工作任务<b class="caret"></b>
+							</a>
+							<ul class="dropdown-menu m-t-xs">
+								<li>@Html.ActionLink("发布工作任务","PublishingTask","Task")</li>
+								<li>@Html.ActionLink("管理工作任务","ManagementTask","Task")</li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+								<i class="fa fa-gear"></i>设置<b class="caret"></b>
+							</a>
+							<ul class="dropdown-menu m-t-xs">
+								@*<li><a href="#" data-toggle="modal" data-target="#new-project">新建项目</a></li>*@
+								<li><a href="#" data-toggle="modal" data-target="#new-folder">新建文件夹</a></li>
+								<li><a href="#" data-toggle="modal" data-target="#project-management" id="pro-management">项目管理</a></li>
+							</ul>
+						</li>
+
+
+						<li>
+							<a href="/Upload/Index">
+								<!-- <span class="glyphicon glyphicon-cloud-upload"></span> --><i class="fa fa-cloud-upload"></i>文件上传
+							</a>
+						</li>
+						<li class="">
+							<a class="right-sidebar-toggle" id="task-list">
+								<i class="fa fa-file-text"></i>任务列表
+							</a>
+						</li>
+						<li>
+							<a class="right-sidebar-down-toggle count-info" href="javascript:;">
+								<span class="glyphicon glyphicon-download-alt"></span> <span class="label label-primary" id="down-count">0</span>
+							</a>
+						</li>
+					</ul>
+
+				</nav>
+			</div>
+			@RenderBody()
+
+			<!-- 任务列表弹出框 -->
+			<div id="right-sidebar">
+				<div class="sidebar-container">
+
+	@*				<ul class="nav nav-tabs navs-3">
+
+						<li class="active">
+							<a data-toggle="tab" href="#tab-1">
+								未完成
+							</a>
+						</li>
+						<li class="">
+							<a data-toggle="tab" href="#tab-2">
+								已完成
+							</a>
+						</li>
+					</ul>
+
+					<div class="tab-content">
+
+						<div id="tab-1" class="tab-pane active">
+							<div>
+								<div class="sidebar-collapse" role="navigation">
+									<ul class="nav drop-menu metismenu" id="side-menu11">
+										<li style="height: 10px;background-color: #fff;"></li>
+										@*  <li class='active unfinish'>
+											<a class='task-menu-level' href='javascript:;'></i>
+											<span class='nav-label'>门诊系统任务1</span>
+											<span class='label label-primary'>28</span><span class='menu-content'>完成度：30%</span> <span class='fa arrow'></span></a>
+											<ul class='nav nav-second-level1'>
+												<li class='icon-detail'>
+													<ul>
+														<li class='icon-name'><a href='javascript:;'>基础号表</a></li>
+														<li class='icon-num'>16</li>
+													</ul>
+												</li>
+												<li class='icon-detail'>
+													<ul>
+														<li class='icon-name'><a href='javascript:;'>基础号表</a></li>
+														<li class='icon-num'>162</li>
+													</ul>
+												</li>
+												<li class='icon-detail'>
+													<ul>
+														<li class='icon-name'><a href='javascript:;'>基础号表</a></li>
+														<li class='icon-num'>162</li>
+													</ul>
+												</li>
+
+											</ul>
+																				   </li>
+									</ul>
+								</div>
+							</div>
+						</div>
+
+						<div id="tab-2" class="tab-pane">
+
+							<div class="sidebar-collapse" role="navigation">
+								<ul class="nav drop-menu metismenu" id="side-menu2">
+									<li style="height: 10px;background-color: #fff;"></li>
+									@*<li class="active finish-work">
+										<a class="task-menu-level href="javascript:;"></i> <span class="nav-label">门诊系统任务1</span><span class="label label-primary">28</span><span class="menu-content">完成度：30%</span> <span class="fa arrow"></span></a>
+										<ul class="nav nav-second-level1">
+											<li class="drop-topfun">
+												<ul>
+													<li class="choose-all"><input type="checkbox" name="">全选</li>
+													<li class="all-down"><span class=" glyphicon-all-down"> </span>批量下载</li>
+													<li class="back" data-toggle="modal"><i class="glyphicon fa fa-mail-reply-all"></i>退返</li>
+													<li class="sort">
+														<!--  <span class="glyphicon glyphicon-sort-by-alphabet"></span>排序 -->
+														<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+															<span class="glyphicon glyphicon-sort-by-alphabet">排序<b class="caret"></b>
+														</a>
+														<ul class="dropdown-menu m-t-xs" data-stoppropagation="true">
+															<li><i class="circle" id="i-name"></i><a href="#">名称</a></li>
+															<li><i class="circle" id="i-modifyDate"></i><a href="#">修改日期</a></li>
+															<li class="divider"></li>
+															<li><i class="circle" id="i-up"></i><a href="#">递增</a></li>
+															<li><i class="circle" id="i-down"></i><a href="#">递减</a></li>
+														</ul>
+													</li>
+												</ul>
+											</li>
+											<li class="icon-detail-f">
+												<ul>
+													<li class="icon-init"><input type="checkbox" name=""><a href="javascript:;">发票初始化</a></li>
+													<li class="icon-size">16*16</li>
+													<li class="icon-time">2017-10-10</li>
+												</ul>
+
+											</li>
+											<li class="icon-detail-f">
+												<ul>
+													<li class="icon-init"><input type="checkbox" name=""><a href="javascript:;">发票初始化</a></li>
+													<li class="icon-size">16*16</li>
+													<li class="icon-time">2017-10-10</li>
+												</ul>
+											</li>
+											<li class="icon-detail-f">
+												<ul>
+													<li class="icon-init"><input type="checkbox" name=""><a href="javascript:;">发票初始化</a></li>
+													<li class="icon-size">16*16</li>
+													<li class="icon-time">2017-10-10</li>
+												</ul>
+											</li>
+											<li class="icon-detail-f">
+												<ul>
+													<li class="icon-init"><input type="checkbox" name=""><a href="javascript:;">发票初始化</a></li>
+													<li class="icon-size">16*16</li>
+													<li class="icon-time">2017-10-10</li>
+												</ul>
+											</li>
+
+										</ul>
+									</li>
+									<li class="finish-work">
+		<a class="task-menu-level href="javascript:;"></i> <span class="nav-label">慢病系统任务2</span><span class="label label-primary">28</span><span class="menu-content">完成度：30%</span> <span class="fa arrow"></span></a>
+		<ul class="nav nav-second-level1 collapse">
+			<li class="drop-topfun">
+				<ul>
+					<li class="choose-all"><input type="checkbox" name="">全选</li>
+					<li class="all-down"><span class=" glyphicon-all-down"> </span>批量下载</li>
+					<li class="back" data-toggle="modal"><i class="glyphicon fa fa-mail-reply-all"></i>退返</li>
+					<li class="sort">
+						<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+							<span class="glyphicon glyphicon-sort-by-alphabet">排序<b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu m-t-xs">
+							<li><i class="circle"></i><a href="#">名称</a></li>
+							<li><i class="circle"></i><a href="#">修改日期</a></li>
+							<li class="divider"></li>
+							<li><i class="circle"></i><a href="#">递增</a></li>
+							<li><i class="circle"></i><a href="#">递减</a></li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+			<li class="icon-detail-f">
+				<ul>
+					<li class="icon-init"><input type="checkbox" name=""><a href="javascript:;">发票初始化</a></li>
+					<li class="icon-size">16*16</li>
+					<li class="icon-time">2017-10-10</li>
+				</ul>
+			</li>
+			<li class="icon-detail-f">
+				<ul>
+					<li class="icon-init"><input type="checkbox" name=""><a href="javascript:;">发票初始化</a></li>
+					<li class="icon-size">16*16</li>
+					<li class="icon-time">2017-10-10</li>
+				</ul>
+			</li>
+			<li class="icon-detail-f">
+				<ul>
+					<li class="icon-init"><input type="checkbox" name=""><a href="javascript:;">发票初始化</a></li>
+					<li class="icon-size">16*16</li>
+					<li class="icon-time">2017-10-10</li>
+				</ul>
+			</li>
+			<li class="icon-detail-f">
+				<ul>
+					<li class="icon-init"><input type="checkbox" name=""><a href="javascript:;">发票初始化</a></li>
+					<li class="icon-size">16*16</li>
+					<li class="icon-time">2017-10-10</li>
+				</ul>
+			</li>
+
+		</ul>
+	</li>
+	<li class="finish-work">
+		<a class="task-menu-level href="javascript:;"></i> <span class="nav-label">住院系统任务3</span><span class="label label-primary">28</span><span class="menu-content">完成度：30%</span> <!-- <span class="fa arrow"> </span>--></a>
+
+	</li>
+								</ul>
+							</div>
+
+
+						</div>
+						<div class="close-sidebar">关闭</div>
+					</div>*@
+
+				</div>
+
+			</div>
+			<!-- 批量下载 -->
+			<div id="right-sidebar-down" class="sidebar-down">
+				<div class="clear-down">
+					<span class="clear">
+						<span class="clear-a"></span><span style="margin-left: -3px;">一键清除</span>
+					</span>
+
+				</div>
+				<div class="main-icons" id="down-iconlist">
+					<ul class="clearfix">
+						@*<li class="icon-wrap">
+		<div class="icon"></div>
+		<span class="icon-name">转入病人系统</span>
+	</li>
+	<li class="icon-wrap">
+		<div class="icon"></div>
+		<span class="icon-name">麻醉系统</span>
+	</li>
+	<li class="icon-wrap">
+		<div class="icon"></div>
+		<span class="icon-name">病人主索引</span>
+	</li>
+						<li class="icon-wrap">
+							<div class="icon"></div>
+							<span class="icon-name">量表管理</span>
+						</li>*@
+					</ul>
+				</div>
+
+				<ul class="bottom-btn">
+					<li class="down-all" id="batch-down">批量下载</li>
+					<li class="close-sidebar">关闭</li>
+				</ul>
+
+			</div>
+		</div>
+
+		<!-- 设置中的各种弹出框 -->
+		<!-- 任务列表中的退返弹出框 -->
+		<div class="modal new-project" id="task-back" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">退返</h4>
+					</div>
+					<div class="modal-body">
+						<div class="clearfix">
+							<label>备注：</label><textarea id="tasklist-remark"></textarea>
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal" id="task-back-submit">确定</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 切换账号 -->
+		<div class="modal change-login" id="change-login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">切换账号</h4>
+					</div>
+					<div class="modal-body">
+						<div class="clearfix">
+							<label for="login-name">用户名：</label><input id="login-name" type="text" name="">
+							<label for="login-password">密码：</label><input id="login-password" type="password" name="">
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal" id="loginConfirmBtn">确认登录</button>
+						<span id="loginMsg"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 新建项目 -->
+		<div class="modal new-project" id="new-project" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">新建项目</h4>
+					</div>
+					<div class="modal-body">
+						<div class="clearfix">
+							<label for="pro-name">项目名称：</label><input id="pro-name" type="text" name="">
+							<label>说明：</label><textarea id="pro-remark"></textarea>
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal" id="projectBtn">保存</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 新建文件夹 -->
+		<div class="modal new-folder" id="new-folder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">新建文件夹</h4>
+					</div>
+					<div class="modal-body">
+						<div class="clearfix">
+							<label for="folder-name">文件夹名称：</label>
+							<input id="folder-name" type="text" name="">
+							<label for="folder-name">文件夹所属：</label>
+							<div class="dropdown active modal-select" id='folder-data'>
+								<span class='dropdown-toggle select-choose' data-toggle="dropdown" data-info=''></span>
+								<b class="caret"></b>
+								<div class="dropdown-menu m-t-xs project-tree" id="folder-tree-box">
+									<!-- 这里树结构<ul></ul> -->
+									<div class="folder_tree_json" id="folder_tree_content"></div>
+								</div>
+							</div>
+							<label>说明：</label><textarea></textarea>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" id="folderBtn" class="btn btn-default">保存</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 项目管理 -->
+		<div class="modal project-management" id="project-management" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">项目管理</h4>
+					</div>
+					<div class="modal-body">
+						<div class="project-tree" id="promagr-tree">
+							<!-- 这里树结构
+							<ul></ul> -->
+							<div class="folder_tree_json" id="folder_tree"></div>
+						</div>
+						<p class="tips"><i class="fa fa-exclamation-circle"></i>删除文件夹前谨记转移里面的文件！</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" onclick="demo_delete();">保存</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+		<!-- Mainly scripts -->
+		<script src="/Scripts/jquery-2.1.1.js"></script>
+
+		<script src="/Scripts/bootstrap.min.js"></script>
+		@*<script src="/Scripts/plugins/metisMenu/jquery.metisMenu.js"></script>*@
+		<script src="/Scripts/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+		<!-- Flot -->
+		<script src="/Scripts/plugins/flot/jquery.flot.js"></script>
+		<script src="/Scripts/plugins/flot/jquery.flot.tooltip.min.js"></script>
+		<script src="/Scripts/plugins/flot/jquery.flot.spline.js"></script>
+		<script src="/Scripts/plugins/flot/jquery.flot.resize.js"></script>
+		<script src="/Scripts/plugins/flot/jquery.flot.pie.js"></script>
+
+		<!-- Custom and plugin javascript -->
+		<script src="/Scripts/inspinia.js"></script>
+		<script src="/Scripts/plugins/pace/pace.min.js"></script>
+
+		<!-- jQuery UI -->
+		<script src="/Scripts/plugins/jquery-ui/jquery-ui.min.js"></script>
+
+
+		<!-- TouchSpin -->
+		<script src="/Scripts/plugins/touchspin/jquery.bootstrap-touchspin.min.js"></script>
+		<!-- IonRangeSlider滑动条 -->
+		<!-- <script src="/Scripts/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script> -->
+		<script src="/Scripts/user/ion.rangeSlider.js"></script>
+		<!-- iCheck -->
+		<script src="/Scripts/plugins/iCheck/icheck.min.js"></script>
+		<script src="/Scripts/plugins/jsTree/jstree.min.js"></script>
+		<script src="/Scripts/laydate/laydate.js"></script>
+		<!-- 本页面自添的js -->
+		<script src="/Scripts/user/bootstrap-colorpicker.min.js"></script>
+		<script src="/Scripts/user/common.js"></script>
+
+		<!-- 实现功能的js -->
+		<script src="/Scripts/home/login.js"></script>
+		<script src="/Scripts/project/project.js"></script>
+		<script src="/Scripts/folder/folder.js"></script>
+		@RenderSection("script",false)
+	<script>
+		$(function () {
+			$("#task-list").click(function () {
+				$.ajax({
+					url: '/Home/GetTaskList',//控制器活动,返回一个分部视图,并且给分部视图传递数据.
+					data: {'id':123},//传给服务器的数据(即后台AddUsers()方法的参数,参数类型要一致才可以)
+					type: 'POST',
+					contentType: 'application/json;charset=utf-8',//数据类型必须有
+					async: true,//异步
+					success: function (data) //成功后的回调方法
+					{
+						$("#right-sidebar .sidebar-container").html(data);//data--就是对应的分部视图页面内容.
+
+						$("#right-sidebar .close-sidebar").click(function () {
+							$('#right-sidebar').removeClass('sidebar-open');
+							$('.right-sidebar-toggle').parent("li").removeClass('active');
+						});
+						var ths = $("#task-list");
+						boolOrder = false;
+						$("#side-menu11").find(".unfinish").remove();
+						$("#side-menu2").find(".finish-work").remove();
+						//分页展示未完成任务信息
+						$.ajax({
+							type: "POST",
+							url: "/Task/ShowUnfinished",
+							dataType: "json",
+							data: { "PageIndex": 1, "PageSize": 100, "State": 10 },
+							success: function (json) {
+								$.each(json.data.List, function (i, val) {//加载未完成主任务列表
+									$("#side-menu11").append("<li class='unfinish' data-info=" + val.UID + "><a class='task-menu-level' href='javascript:;'></i><span class='nav-label'>" + val.TaskName + "</span><span class='label label-primary'>" + val.TotalCount + "</span><span class='menu-content'>完成度：" + val.Per + "</span> <span class='fa arrow'></span></a><ul class='nav nav-second-level1 collapse'></ul></li>");
+								});
+							}
+						});
+						$("#side-menu11").on('click', '.unfinish', function () {
+							var ths = $(this),
+								fieldValue = ths.attr("data-info");
+							if (ths.hasClass("active")) {
+								ths.find(".nav").empty();
+								return;
+							}
+							$.ajax({
+								type: "POST",
+								url: "/TaskList/UnfinishedTaskList",
+								dataType: "json",
+								data: { "PageIndex": 1, "PageSize": 100, "Field": "TaskUID", "FieldValue": fieldValue },
+								success: function (json) {
+									$.each(json.List, function (i, val) {//加载未完成主任务列表
+										ths.find(".nav").append("<li class='icon-detail' data-info=" + escape(JSON.stringify(val)) + "><ul><li class='icon-name'><a href='javascript:;'>" + val.TaskListName + "</a></li><li class='icon-num'>" + val.PictureSize + "</li></ul></li>");
+									});
+
+									// 头部导航中的任务列表
+									//未完成(具体项鼠标移入显示tips)
+									$(".sidebar-container").find(".icon-detail").each(function () {
+										var _ths = $(this);
+										_ths.find(".icon-name a").mouseover(function () {
+											var info = JSON.parse(unescape(_ths.attr("data-info")));
+											var tips = "<div class='tips clearfix'>" +
+										"<i class='triangle-n'></i><i class='triangle-w'></i>" +
+										"<span class='tips-name tips-n'>名称：</span><span class='tips-val'> " + info.TaskListName + "</span>" +
+										"<span class='tips-name tips-s'>尺寸：</span><span class='tips-val'>" + info.PictureSize + "</span>" +
+										"<span class='tips-name tips-d'>说明：</span><span class='tips-val'>" + info.Remark + "</span>" +
+										"<span class='tips-name tips-b'>备注：</span><span class='tips-val'>" + info.Remark + "</span>" +
+									"</div>";
+											if (_ths.find(".tips").length == 0) {
+												_ths.append(tips);
+											} else {
+												_ths.find(".tips").css("display", "block");
+											}
+										}).mouseleave(function () {
+											_ths.find(".tips").css("display", "none");
+										});
+									});
+								}
+							});
+
+						});
+						//分页展示已完成任务信息
+						$.ajax({
+							type: "POST",
+							url: "/Task/ShowFinished",
+							dataType: "json",
+							data: { "PageIndex": 1, "PageSize": 100, "State": 10 },
+							success: function (json) {
+								$.each(json.data.List, function (i, val) {//加载已完成主任务列表
+									$("#side-menu2").append("<li class='finish-work' data-info=" + val.UID + "><a class='task-menu-level' href='javascript:;'></i><span class='nav-label'>" + val.TaskName + "</span><span class='label label-primary'>" + val.TotalCount + "</span><span class='menu-content'>完成度：" + val.Per + "</span> <span class='fa arrow'></span></a>" +
+															   "<ul class='nav nav-second-level1  collapse'>" +
+																				"<li class='drop-topfun'>" +
+																					"<ul>" +
+																						"<li class='choose-all'><input type='checkbox'  class='checkedAll' name=''>全选</li>" +
+																						"<li class='all-down'><span class=' glyphicon-all-down'></span>批量下载</li>" +
+																						"<li class='back' data-toggle='modal' data-target='#task-back'><i class='glyphicon fa fa-mail-reply-all'></i>退返</li>" +
+																						"<li class='sort'>" +
+																							"<a class='dropdown-toggle count-info' data-toggle='dropdown' href='#'>" +
+																								"<span class='glyphicon glyphicon-sort-by-alphabet'>排序<b class='caret'></b>" +
+																							"</a>" +
+																							"<ul class='dropdown-menu m-t-xs' data-stoppropagation='true'>" +
+																								"<li class='up' ><i class='circle c-up' id='i-name'></i><a href='#' id='TaskListName'>名称</a></li>" +
+																								"<li class='up' ><i class='' id='i-modifyDate'></i><a href='#' id='EditTime'>修改日期</a></li>" +
+																								"<li class='divider'></li>" +
+																								"<li class='down'><i class='' id='i-up'></i><a href='#' id='asc'>递增</a></li>" +
+																								"<li class='down'><i class='circle c-down' id='i-down'></i><a href='#' id='desc'>递减</a></li>" +
+																							"</ul>" +
+																						"</li>" +
+																					"</ul></li>");
+								});
+								$('.dropdown-toggle').dropdown();//激活
+							}
+						});
+						$("#side-menu2").off('click', '.finish-work .task-menu-level').on('click', '.finish-work .task-menu-level', function () {
+							var ths = $(this).parent(".finish-work"),
+								fieldValue = ths.attr("data-info"),
+								cond = ths.find(".c-up").siblings("a").attr("id"),
+								order = ths.find(".c-down").siblings("a").attr("id");
+							if (ths.hasClass("active") && !boolOrder) {
+								ths.find(".nav .icon-detail-f").remove();
+								return;
+							}
+							ths.find(".nav .icon-detail-f").remove();
+							$.ajax({
+								type: "POST",
+								url: "/TaskList/FinishedTaskList",
+								dataType: "json",
+								data: { "PageIndex": 1, "PageSize": 100, "Field": "TaskUID", "FieldValue": fieldValue, "Order": order, "Cond": cond },
+								success: function (json) {
+									$.each(json.List, function (i, val) {//加载未完成主任务列表
+										ths.find(".nav").append("<li class='icon-detail-f' data-info=" + escape(JSON.stringify(val)) + "><ul><li class='icon-init'><input type='checkbox' name='' data-id=" + val.UID + "><a href='javascript:;'>" + val.TaskListName + "</a></li><li class='icon-size'>" + val.PictureSize + "</li><li class='icon-time'>" + val.EditTime + "</li></ul></li>");
+									});
+									// 头部导航中的任务列表
+									//未完成(具体项鼠标移入显示tips)
+									$(".sidebar-container").find(".icon-detail-f").each(function () {
+										var _ths = $(this);
+										_ths.find(".icon-init a").mouseover(function () {
+											var info = JSON.parse(unescape(_ths.attr("data-info")));
+											var tips = "<div class='tips clearfix'>" +
+										"<i class='triangle-n'></i><i class='triangle-w'></i>" +
+										"<img class='icon-f' src=" + info.DocumentPath + ">" +
+										"<span class='tips-name tips-n'>图片名称：</span><span class='tips-val'> " + info.TaskListName + "</span>" +
+										"<span class='tips-name tips-s'>图片尺寸：</span><span class='tips-val'>" + info.PictureSize + "</span>" +
+										"<span class='tips-name tips-t'>完成日期：</span><span class='tips-val'>" + info.EditTime + "</span>" +
+										"<span class='tips-name tips-d'>说明：</span><span class='tips-val'>" + info.Remark + "</span>" +
+										"<span class='tips-name tips-b'>备注：</span><span class='tips-val'>" + info.Remark + "</span>" +
+									"</div>";
+											if (_ths.find(".tips").length == 0) {
+												_ths.append(tips);
+											} else {
+												_ths.find(".tips").css("display", "block");
+											}
+										}).mouseleave(function () {
+											_ths.find(".tips").css("display", "none");
+										});
+									});
+									boolOrder = false;
+								}
+							});
+						});
+						//已完成 全选按钮事件
+						$("#side-menu2").on('click', '.checkedAll', function () {
+							var _ths = $(this);
+							if (_ths.prop("checked")) {
+								_ths.parents(".finish-work").find('.icon-detail-f input').each(function () {
+									$(this).prop("checked", true);
+								});
+							} else {
+								_ths.parents(".finish-work").find('.icon-detail-f input').each(function () {
+									$(this).prop("checked", false);
+								});
+							}
+
+						});
+						//批量下载按钮事件
+						$('#side-menu2').on("click", ".all-down", function () {
+							var ths = $(this),
+								list = ths.parents('.finish-work'),
+							   json = [];
+							list.find(".icon-detail-f input").each(function () {
+								var ths = $(this),
+									mod = {};
+								if (ths.prop("checked")) {
+									var info = JSON.parse(unescape(ths.parents(".icon-detail-f").attr("data-info"))),
+									src = info.DocumentPath;
+									mod.url = src;
+									json.push(mod)
+								}
+							});
+							if (json.length == 0) {
+								alert("请选中图片");
+								return;
+							}
+							var form = $("<form>");
+							form.attr('style', 'display:none');
+							form.attr('target', '');
+							form.attr('method', 'post'); //请求方式
+							form.attr('action', '/Upload/GetImageFiles');//请求地址
+							var input1 = $('<input>');//将你请求的数据模仿成一个input表单
+							input1.attr('type', 'hidden');
+							input1.attr('name', 'ListImagePath');//该输入框的name
+							input1.attr('value', JSON.stringify(json));//该输入框的值
+							$('body').append(form);
+							form.append(input1);
+							form.submit();
+							form.remove();
+						});
+						//排序的选中效果
+						$('#side-menu2').off("click", ".drop-topfun .sort ul li").on("click", ".drop-topfun .sort ul li", function () {
+							var ths = $(this),
+								thsi = ths.find("i"),
+								pre = ths.parents(".drop-topfun");
+							boolOrder = true;
+							if (ths.attr("class") == "up") {
+								pre.find(".up i").removeClass("circle c-up");
+								thsi.addClass("circle c-up");
+							} else {
+								pre.find(".down i").removeClass("circle c-down");
+								thsi.addClass("circle c-down");
+							}
+							ths.parents(".finish-work").find(".task-menu-level").click();
+						});
+						//退反
+						$('#side-menu2').off("click", ".back").on("click", ".back", function () {
+							var _ths = $(this),
+								list = _ths.parents('.finish-work'),
+								UIDs = [];
+							list.find(".icon-detail-f input").each(function () {
+								var ths = $(this);
+								if (ths.prop("checked")) {
+									UIDs.push(ths.attr("data-id"));
+								}
+							});
+							if (UIDs.length == 0) {
+								alert("请选中图标");
+								return false;
+							}
+							$('#task-back').off('show.bs.modal').on('show.bs.modal', function () {
+								var text = $("#tasklist-remark").val();
+								$("#task-back-submit").unbind("click").click(function () {
+									if (confirm("确认退返吗")) {
+										$.ajax({
+											type: "POST",
+											url: "/TaskList/ReturnTaskList",
+											dataType: "json",
+											data: { UIDs: UIDs.toString(), Remark: text },
+											success: function (json) {
+												if (json.code > 0) {
+													alert("退返成功");
+													$("#task-list").click();
+												} else {
+													alert("退返失败");
+												}
+											}
+										});
+									}
+								});
+							});
+						});
+						ths.attr('disabled', "true");
+					},
+					error: function (data) {
+						alert("失败:" + data[0])//弹出框
+					}
+
+				});
+			})
+		})
+	</script>
+</body>
+</html>
